@@ -6,8 +6,15 @@ width = 1;
 height = 1;
 steps = 100;
 centered = true;
-connector = 0.75;
-volt = 0.70;
+
+cylinder_r = 1.5;
+cylinder_h = 1.0;
+
+volt_h = 1.3;
+volt_r = 0.6;
+
+hole_h = 1;
+hole_r = 0.75;
 
 module leaf(pts, loc) {
     difference(){
@@ -15,12 +22,12 @@ module leaf(pts, loc) {
             translate(loc) 
                 BezWall(pts, width, height, steps, centered);
             translate(pts[len(pts)-1])
-                cylinder(1, 1);
+                cylinder(h=cylinder_h, r=cylinder_r);
         }
 
         translate(pts[len(pts)-1])
-            scale([connector, connector, 1.1]) 
-                cylinder(1, 1);
+            scale([1, 1, 1.1]) // safe margin
+                cylinder(h=hole_h, r=hole_r);
     }
 
     // volt
@@ -48,22 +55,22 @@ module volt_connect(loc) {
     // volt
     translate(loc)
         translate([0, 0, 0.7])
-            scale([volt, volt, 1]) 
-                cylinder(1, 1);
+            cylinder(h=volt_h, r=volt_r);
 
     // volt base
     translate(loc)
         translate([0, 0, 0.7])
-                cylinder(0.3, 1);
+            cylinder(h=cylinder_h*0.3, r=cylinder_r);
 }
 
 difference(){
     union(){
         leafs([0,0,0]);
         translate([0,0,0])
-            cylinder(1, 1);
+            cylinder(h=cylinder_h, r=cylinder_r);
     }
-    scale([connector, connector, 1.1]) cylinder(1, 1);
+    scale([1,1,1.01])
+        cylinder(h=cylinder_h, r=cylinder_r*connector);
 }
 volt_connect([0,0,0]);
 
