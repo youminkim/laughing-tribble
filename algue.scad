@@ -20,7 +20,6 @@ module leaf(pts, loc) {
         translate(pts[len(pts)-1])
             scale([connector, connector, 1.1]) 
                 cylinder(1, 1);
-        
     }
             
 }
@@ -46,8 +45,6 @@ module volt(loc) {
     translate(loc)
         cylinder(1, connector*0.97, true);
 }
-
-// initial point
 
 difference(){
     union(){
