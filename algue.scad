@@ -7,6 +7,7 @@ height = 1;
 steps = 100;
 centered = true;
 connector = 0.75;
+volt = 0.70;
 
 module leaf(pts, loc) {
     difference(){
@@ -21,7 +22,9 @@ module leaf(pts, loc) {
             scale([connector, connector, 1.1]) 
                 cylinder(1, 1);
     }
-            
+
+    // volt
+    volt_connect(pts[len(pts)-1]);       
 }
 
 module leafs(loc) {
@@ -41,9 +44,17 @@ module leafs(loc) {
     );
 }
 
-module volt(loc) {
+module volt_connect(loc) {
+    // volt
     translate(loc)
-        cylinder(1, connector*0.97, true);
+        translate([0, 0, 0.7])
+            scale([volt, volt, 1]) 
+                cylinder(1, 1);
+
+    // volt base
+    translate(loc)
+        translate([0, 0, 0.7])
+                cylinder(0.3, 1);
 }
 
 difference(){
@@ -54,8 +65,6 @@ difference(){
     }
     scale([connector, connector, 1.1]) cylinder(1, 1);
 }
+volt_connect([0,0,0]);
 
-volt([9,0,0]);
-volt([6,0,0]);
-volt([3,0,0]);
 
