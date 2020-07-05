@@ -10,14 +10,14 @@ centered = true;
 cylinder_r = 1.1;
 cylinder_h = 1.0;
 
-volt_h = 1.0;
-volt_r = 0.7;
-volt_translate_z= 0.9;
+bolt_h = 1.2;
+bolt_r = 0.7;
+bolt_translate_z= 0.9;
 
 hole_h = 1;
 hole_r = 0.75;
 
-module leaf(pts, loc) {
+module leaf(pts, loc, has_bolt=true) {
     difference(){
         union(){
             translate(loc) 
@@ -25,42 +25,47 @@ module leaf(pts, loc) {
             translate(pts[len(pts)-1])
                 cylinder(h=cylinder_h, r=cylinder_r);
         }
-
         translate(pts[len(pts)-1])
             scale([1, 1, 1.01]) // safe margin
                 cylinder(h=hole_h, r=hole_r);
     }
 
-    // volt
-    volt_connect(pts[len(pts)-1]);       
+    // bolt
+    if(has_bolt){
+        bolt_connect(pts[len(pts)-1]);       
+    }
+    
 }
 
 module leafs(loc) {
     leaf (
         [[0,0], [-5,10], [10, 20], [5,40]], 
-        loc
+        loc,
+        true
     );
 
     leaf (
         [[0,0], [-4,20], [10,5], [15,15]], 
-        loc
+        loc,
+        false
     );
 
     leaf (
         [[0,0], [-5,10], [-2, 5], [-5,20]],
-        loc
+        loc,
+        true
     );
 }
 
-module volt_connect(loc) {
+module bolt_connect(loc) {
     // volt
     translate(loc)
-        translate([0, 0, volt_translate_z])
-            cylinder(h=volt_h, r=volt_r);
+        translate([0, 0, bolt_translate_z])
+            cylinder(h=bolt_h, r=bolt_r);
 
-    // volt base
+    // bolt base
     translate(loc)
-        translate([0, 0, volt_translate_z])
+        translate([0, 0, bvlt_translate_z])
             cylinder(h=cylinder_h*0.01, r=cylinder_r);
 }
 
@@ -73,6 +78,5 @@ difference(){
     scale([1,1,1.01])
         cylinder(h=hole_h, r=hole_r);
 }
-volt_connect([0,0,0]);
 
 
