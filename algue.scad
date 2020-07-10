@@ -10,8 +10,8 @@ centered = true;
 cylinder_r = 1.1;
 cylinder_h = 1.0;
 
-bolt_h = 1.5;
-bolt_r = 0.60;
+bolt_h = 1.7;
+bolt_r = 0.65;
 bolt_translate_z= 0.9;
 
 hole_h = 1.2;
@@ -31,9 +31,7 @@ module leaf(pts, loc, has_bolt=true) {
                     cylinder(h=hole_h, r=hole_r);
         }
     }
-
     
-
     // bolt
     if(has_bolt){
         bolt_connect(pts[len(pts)-1]);       
@@ -62,7 +60,7 @@ module leafs(loc) {
 }
 
 module bolt_connect(loc) {
-    // volt
+    // bolt
     translate(loc)
         translate([0, 0, bolt_translate_z])
             cylinder(h=bolt_h, r=bolt_r);
