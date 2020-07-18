@@ -13,3 +13,6 @@ Print environment
 Thanks to 
  * OpenSCAD 
  * Bezier library from https://github.com/chadkirby/BezierScad
+
+Useful tips
+ * http://www.herdima.de/openscad-tips/
